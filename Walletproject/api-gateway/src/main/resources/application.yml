@@ -1,0 +1,48 @@
+
+server:
+   port: 8060
+   
+eureka:
+     client:
+       serviceUrl:
+         defaultZone: http://localhost:8761/eureka/
+         
+spring:
+  application:
+    name: api-gateway 
+ 
+  cloud: 
+    config:
+      enabled: false
+      
+
+
+    gateway:
+      routes:
+        - id: walletaccount-service
+          uri: lb://project-service
+          predicates:
+            - Path= /api/walletaccount/**
+            
+
+        - id: transaction-service
+          uri: lb://transaction-service
+          predicates:
+            - Path= /api/transaction/**
+
+
+        - id: bankaccount-service
+          uri: lb://bankaccount-service
+          predicates:
+            - Path= /api/bankaccount/**
+            
+            
+##okta config for api gateway
+#
+#okta:
+#  oauth2:
+#    issuer: https://dev-31457486.okta.com/oauth2/default
+#    audience: api://default
+#    client-id: 0oaarzw7mvrmmziXC5d7
+#    client-secret: YE-NbmthCcDIgvDj76QEvaUwQSu9i1HpE1JOGo3mBKwKIHLtUPrpjAZJ8Dx3ZgWm
+#    scopes: openid, profile, email, offline_access
